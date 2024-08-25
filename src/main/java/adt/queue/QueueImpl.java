@@ -13,37 +13,68 @@ public class QueueImpl<T> implements Queue<T> {
 
 	@Override
 	public T head() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isEmpty()) {
+			return null;
+		}
+
+		return array[0];
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		return tail == -1;
 	}
 
 	@Override
 	public boolean isFull() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		return tail == (array.length - 1);
 	}
 
 	private void shiftLeft() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+
+
+		for (int i = 1; i <= tail; i++) {
+			array[i - 1] = array[i];
+		}
+
+		// [1,2,3(tail)] -> [2, 3, null]
+		if (isFull()) {
+			array[tail] = null;
+		}
+
 	}
 
 	@Override
 	public void enqueue(T element) throws QueueOverflowException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isFull()) {
+			throw new QueueOverflowException();
+		}
+
+		tail = tail + 1;
+		array[tail] = element;
 	}
 
 	@Override
 	public T dequeue() throws QueueUnderflowException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+
+		if (isEmpty()) {
+			throw new QueueUnderflowException();
+		}
+
+		T result = array[0];
+
+		// [3] -> [null]
+		if (array.length == 1) {
+			array[0] = null;
+			tail = tail - 1;
+			return result;
+		}
+
+		
+		shiftLeft();
+		tail = tail - 1;
+
+		return result;
 	}
 
 }
