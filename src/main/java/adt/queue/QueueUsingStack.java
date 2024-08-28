@@ -18,68 +18,36 @@ public class QueueUsingStack<T> implements Queue<T> {
 	@Override
 	public void enqueue(T element) throws QueueOverflowException {
 
-		if (isFull()) {
-			throw new QueueOverflowException();
-		}
-
 		try {
 			stack1.push(element);
 		} catch (StackOverflowException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new QueueOverflowException();
 		}
 	}
 
 	@Override
 	public T dequeue() throws QueueUnderflowException {
 
-		if (isEmpty()) {
+		try {
+
+			while (!stack1.isEmpty()) {
+				stack2.push(stack1.pop());
+			}
+	
+			T result = stack2.pop();
+	
+			while (!stack2.isEmpty()) {
+				stack1.push(stack2.pop());
+			}
+	
+			return result;
+
+		} catch (StackOverflowException | StackUnderflowException e) {
 			throw new QueueUnderflowException();
 		}
 		
-		while (!stack1.isEmpty()) {
-			try {
 
-				stack2.push(stack1.pop());
-				
-			} catch (StackOverflowException e) {
-			
-				e.printStackTrace();
-
-			} catch (StackUnderflowException e) {
-			
-				e.printStackTrace();
-			}
-		}
-
-		T result = null;
 		
-		try {
-
-			result = stack2.pop();
-
-		} catch (StackUnderflowException e) {
-			
-			e.printStackTrace();
-		}
-
-		while (!stack2.isEmpty()) {
-
-			try {
-
-				stack1.push(stack2.pop());
-
-			} catch (StackOverflowException e) {
-				
-				e.printStackTrace();
-
-			} catch (StackUnderflowException e) {
-				
-				e.printStackTrace();
-			}
-		}
-
-		return result;
 	}
 
 	@Override
@@ -90,39 +58,21 @@ public class QueueUsingStack<T> implements Queue<T> {
 		}
 
 		T result = null;
-		
-		while (!stack1.isEmpty()) {
 
-			try {
+		try {
 
+			while (!stack1.isEmpty()) {
 				stack2.push(stack1.pop());
-
-			} catch (StackOverflowException e) {
-
-				e.printStackTrace();
-
-			} catch (StackUnderflowException e) {
-
-				e.printStackTrace();
 			}
-
+	
 			result = stack2.top();
-		}
-
-		while (!stack2.isEmpty()) {
-
-			try {
-
+	
+			while (!stack2.isEmpty()) {
 				stack1.push(stack2.pop());
-
-			} catch (StackOverflowException e) {
-
-				e.printStackTrace();
-
-			} catch (StackUnderflowException e) {
-
-				e.printStackTrace();
 			}
+	
+		} catch (StackOverflowException | StackUnderflowException e) {
+			
 		}
 
 		return result;
