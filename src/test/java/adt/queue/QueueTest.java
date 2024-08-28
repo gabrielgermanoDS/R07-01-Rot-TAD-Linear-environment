@@ -29,9 +29,9 @@ public class QueueTest {
     }
 
     private void getImplementations() {
-        this.queueTamanhoZero = new QueueUsingStack<>(0);
-        this.queueCheia = new QueueUsingStack<>(5);
-        this.queueVazia = new QueueUsingStack<>(4);
+        this.queueTamanhoZero = new CircularQueue<>(0);
+        this.queueCheia = new CircularQueue<>(5);
+        this.queueVazia = new CircularQueue<>(4);
     }
 
     // TESTES QUEUE CHEIA
